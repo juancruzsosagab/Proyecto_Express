@@ -1,5 +1,11 @@
 const productsModel = require("../models/productsModels");
 const categoryModel = require("../models/categoriesModel")
+var multer = require('multer');
+
+var DIR = './public/images/';
+
+var upload = multer({dest: DIR}).single('photo');
+
 module.exports = {
     getAll: async (req, res, next) => {
         try{
@@ -53,7 +59,8 @@ module.exports = {
                 price: req.body.price,
                 quantity: req.body.quantity,
                 category: categoria._id,
-                tags:req.body.tags
+                images:req.body.images/*,
+                tags:req.body.tags*/
             })
             console.log(req.body.tags)
             const document = await  product.save();
@@ -85,5 +92,21 @@ module.exports = {
             next(e)
         }
         
+        
+    },
+    
+    upload: async function (req, res, next) {
+        try{
+            upload(req,res,function(err){
+                if(err){
+                    console.log(err);
+                    next();
+                }
+                console.log(req.file);
+                res.status(201).json({status:"success",message:"Imagen cargada",data:req.file})
+            })
+        }catch(e){
+            next(e)
+        }
     }
 }

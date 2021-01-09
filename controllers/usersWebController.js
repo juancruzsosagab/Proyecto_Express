@@ -35,26 +35,25 @@ module.exports = {
             if(document){
                             
              //Send email
-            console.log("Hoooooola"+userWeb.email)
-                let transporter = nodemailer.createTransport({
+            let transporter = nodemailer.createTransport({
                     service: 'gmail',
                     auth: {
                         user: process.env.EMAIL,
                         pass: process.env.PASSWORD 
                     }
                 });
-                console.log("Hoooooola"+userWeb.email)
+                
                 const mailOptions = {
                     from: "riverplate949494", 
                     to: userWeb.email, 
-                    subject: userWeb.name+' tu registro ha exitoso',
+                    subject: `${userWeb.name} tu registro ha sido exitoso`,
                     text: 'Has completado tu registro exitosamente'
                 };
                 transporter.sendMail(mailOptions, (err, data) => {
                     if (err) {
                      console.log('Error occurs',err);
                     }
-                     console.log('Email sent!!!');
+                     console.log('Email sent!');
                 })
     
             }

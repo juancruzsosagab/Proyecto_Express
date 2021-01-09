@@ -6,6 +6,16 @@ const tagsSchema = new mongoose.Schema({
         required:true
     }
 })
+const imgSchema = new mongoose.Schema({
+    fieldname: "String",
+    originalname: "String",
+    encoding: "String",
+    mimetype: "String",
+    destination: "String",
+    filename: "String",
+    path: "String",
+    size: "String"
+})
 const productsSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -42,7 +52,8 @@ const productsSchema = new mongoose.Schema({
         }
     },
     quantity: Number,
-    tags:[tagsSchema]
+    tags:[tagsSchema],
+    images:imgSchema
     
 });
 productsSchema.statics.findBydIdAndValidate = async function(id){
@@ -58,6 +69,14 @@ productsSchema.statics.findBydIdAndValidate = async function(id){
 }
 productsSchema.virtual("price_currency").get(function () {
     return "$ " + this.price;
+})
+productsSchema.virtual("image_path").get(function () {
+    if(this.images && this.images.filename){
+        return "http://localhost:3000/images/" + this.images.filename;
+    }else{
+        return null;
+    }
+    
 })
 productsSchema.set('toJSON', { getters: true, virtuals: true });
 productsSchema.plugin(mongoose.mongoosePaginate);

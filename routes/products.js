@@ -3,6 +3,7 @@ var router = express.Router();
 
 var productsController = require("../controllers/productsController")
 
+router.post('/upload',productsController.upload);
 /* GET users listing. */
 router.get('/', productsController.getAll);
 router.get('/:id', productsController.getById);
