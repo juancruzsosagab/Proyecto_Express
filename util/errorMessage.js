@@ -6,6 +6,13 @@ module.exports={
     },
     USERSADMIN:{
         userExist:"El {VALUE} ya existe",
+        emailIncorrect:"El {PATH} debe contener un formato de email correcto", 
+        passwordIncorrect:"El {PATH} debe contener al menos 1 letra, 1 minuscula, 1 mayuscula"
+    }
+    ,
+    USERSWEB:{
+        userExist:"El {VALUE} ya existe",
+        emailIncorrect:"El {PATH} debe contener un formato de email correcto", 
         passwordIncorrect:"El {PATH} debe contener al menos 1 letra, 1 minuscula, 1 mayuscula"
     }
 }

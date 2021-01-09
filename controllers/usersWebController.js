@@ -1,6 +1,9 @@
 const usersWebModel = require("../models/usersWebModel");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+require('dotenv').config();
+
 module.exports = {
     validate: async (req, res, next) => {
         try{
@@ -29,6 +32,32 @@ module.exports = {
             })
             const document = await userWeb.save();
             res.json(document);
+            if(document){
+                            
+             //Send email
+            console.log("Hoooooola"+userWeb.email)
+                let transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: process.env.EMAIL,
+                        pass: process.env.PASSWORD 
+                    }
+                });
+                console.log("Hoooooola"+userWeb.email)
+                const mailOptions = {
+                    from: "riverplate949494", 
+                    to: userWeb.email, 
+                    subject: userWeb.name+' tu registro ha exitoso',
+                    text: 'Has completado tu registro exitosamente'
+                };
+                transporter.sendMail(mailOptions, (err, data) => {
+                    if (err) {
+                     console.log('Error occurs',err);
+                    }
+                     console.log('Email sent!!!');
+                })
+    
+            }
         }catch(e){
             next(e)
         }

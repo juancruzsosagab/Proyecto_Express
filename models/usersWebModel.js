@@ -11,7 +11,13 @@ const userSchema = new mongoose.Schema({
     email:{
         type:String,
         unique:true,
-        required:[true,errorMessage.GENERAL.campo_obligatorio]
+        required:[true,errorMessage.GENERAL.campo_obligatorio],
+        validate:{
+            validator: async function(v){
+            return validators.emailValidate(v);
+        },
+        message:errorMessage.USERSWEB.emailIncorrect
+    }
     },
     password:{
         type:String,
@@ -20,7 +26,7 @@ const userSchema = new mongoose.Schema({
             validator: async function(v){
                 return validators.isGoodPassword(v);
             },
-            message:errorMessage.USERSADMIN.passwordIncorrect
+            message:errorMessage.USERSWEB.passwordIncorrect
         }
     }
 })

@@ -2,6 +2,8 @@ const ventaModel = require("../models/VentaModel");
 const productsModel = require("../models/productsModels");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+
 module.exports = {
 /*    
     create: async function (req, res, next) {
@@ -116,7 +118,29 @@ create: async function (req, res, next) {
             producto.quantity--
             console.log(producto.quantity)
             document2 = await producto.save()
-    
+            
+            //Send email
+            
+            let transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: process.env.EMAIL,
+                    pass: process.env.PASSWORD 
+                }
+            });
+            const mailOptions = {
+                from: "riverplate949494", 
+                to: 'juancruz.sosag@gmail.com', //VER DE TRAER EL EMAIL
+                subject: 'Compra exitosa',
+                text: 'Tu compra ha sido exitosa, el producto que compraste es '+producto.name
+            };
+            transporter.sendMail(mailOptions, (err, data) => {
+                if (err) {
+                 console.log('Error occurs',err);
+                }
+                 console.log('Email sent!!!');
+            })
+
         }
         
        
