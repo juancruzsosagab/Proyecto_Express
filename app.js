@@ -46,7 +46,7 @@ app.options("/*", function(req, res, next){
 
 app.use('/users', usersRouter);
 app.use('/productos', productsRouter);
-app.use('/categories',validateUser, categoriesRouter);
+app.use('/categories'/*,validateUser*/, categoriesRouter);
 app.use('/venta', ventaRouter);
 
 

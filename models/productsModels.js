@@ -35,10 +35,7 @@ const productsSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
-    status: {
-        type: String,
-        enum: ["pendiente", "en_stock", "activo"]
-    },
+    
     category: {
         type: mongoose.Schema.ObjectId,
         ref: "categories"
@@ -52,7 +49,7 @@ const productsSchema = new mongoose.Schema({
         }
     },
     quantity: Number,
-    tags:[tagsSchema],
+    /*tags:[tagsSchema],*/
     images:imgSchema
     
 });
