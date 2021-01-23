@@ -4,67 +4,12 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 
+
+
 module.exports = {
-/*    
-    create: async function (req, res, next) {
-        console.log(req.body);
-        try {
-            const user = new usersModel({
-                name: req.body.name,
-                email:req.body.email,
-                password:req.body.password
-            })
-            const usr = await user.save();
-            res.json(usr)
-        } catch (e) {
-            next(e)
-        }
-    },
-    login: async function (req, res, next) {
-        try {
-            const user = await usersModel.findOne({email:req.body.email})
-            if(user){
-                if(bcrypt.compareSync(req.body.password,user.password)){
-                    const token = jwt.sign({userId:user._id},req.app.get("secretKey"));
-                    res.json({token:token})
-                }else{
-                    res.json({error:"El password es incorrecto"})
-                }
-            }else{
-                res.json({error:"el email no esta registrador"})
-            }
-        } catch (e) {
-            next(e)
-        }
-    }
-}
-*/
-
-/*getAll: async (req, res, next) => {
-    try{
-        console.log(req.body.tokenData)
-
-        let queryFind={};
-        if(req.query.buscar){
-            queryFind={name:{$regex:".*"+req.query.buscar+".*",$options:"i"}} //buscar por nombre similar al like
-        }
-        console.log(queryFind)
-        const productos = await productsModel.paginate(queryFind,{
-            
-            //sort:{[req.query.sort]:req.query.sortOrder},
-            sort:{name:1},
-            populate:"category",
-            limit:req.query.limit || 1,
-            page:req.query.page || 1 //numero de pagina
-        });
-        res.status(200).json(productos);
-    }catch(e){
-        next(e)
-    }
-    
-},*/
 getById: async function (req, res, next) {
     try{
+        
         console.log(req.params.id);
         const venta = await ventaModel.findById(req.params.id);
         if(!venta){
@@ -81,7 +26,7 @@ create: async function (req, res, next) {
     
      try{
         console.log(req.body.product_id)
-        console.log("hola");
+        
         const producto = await productsModel.findById(req.body.product_id);//ver como recibo el id del producto, la autenticación del usuario ya está guardada con el token
         if(!producto){
             res.status(200).json({msg:"no existe el producto"})
@@ -96,13 +41,13 @@ create: async function (req, res, next) {
         //const user id =  ver como recibo el token para sacar el user id
         const venta = new ventaModel({
                 product_id: req.body.product_id,
-                usuario_id: req.body.usuario_id,
+                /*usuario_id: req.body.usuario_id,*/
                 fecha: today,
                 product_name: producto.name,
-                cant_comp: req.body.cant_comp,
-                price: req.body.price,
+                cant_comp: 1,
+                price: producto.price,
                 payment: { 
-                    amount: req.body.payment.amount,   
+                    amount: producto.price,   
                     method: req.body.payment.method,                 
                     status: req.body.payment.status,                  
                     expirationDate: today 

@@ -25,7 +25,7 @@ module.exports = {
     create: async function (req, res, next) {
         try{
             console.log(req.body);
-            const userWeb = new usersWebModel({
+            const userWeb = await new usersWebModel({
                 name: req.body.name,
                 email:req.body.email,
                 password:req.body.password
@@ -54,11 +54,13 @@ module.exports = {
                      console.log('Error occurs',err);
                     }
                      console.log('Email sent!');
+                     return;
                 })
-    
+                res.json({message:message});
+                console.log(error,message)
             }
         }catch(e){
-            next(e)
+             next(e)
         }
         
     }

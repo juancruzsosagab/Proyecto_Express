@@ -9,7 +9,7 @@ mongoose.connect('mongodb://localhost/pwa20202C', { useNewUrlParser: true }, fun
     }
 });
 mongoosePaginate.paginate.options={
-    limit:1,
+    limit:16,
     lean:false
 }
 mongoose.mongoosePaginate = mongoosePaginate;
