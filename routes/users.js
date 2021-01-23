@@ -7,6 +7,7 @@ router.post('/registro', usersAdminController.create)
 router.post('/login', usersAdminController.validate)
 router.post('/web/registro', usersWebController.create)
 router.post('/web/login', usersWebController.validate)
+router.post('/web/id', usersWebController.getById)
 
 
 module.exports = router;

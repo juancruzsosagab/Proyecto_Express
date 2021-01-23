@@ -1,5 +1,6 @@
 const ventaModel = require("../models/VentaModel");
 const productsModel = require("../models/productsModels");
+const usersWebModel = require("../models/usersWebModel");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
@@ -37,6 +38,8 @@ create: async function (req, res, next) {
             res.status(200).json({msg:"no hay stock disponible"})
             return;  
         }
+        const userWeb = await usersWebModel.findById(req.body.usuario_id);
+        console.log("falla aca",userWeb)
         const today = new Date();
         //const user id =  ver como recibo el token para sacar el user id
         const venta = new ventaModel({
@@ -46,6 +49,7 @@ create: async function (req, res, next) {
                 product_name: producto.name,
                 cant_comp: 1,
                 price: producto.price,
+                usuario_id: req.body.usuario_id,
                 payment: { 
                     amount: producto.price,   
                     method: req.body.payment.method,                 
@@ -75,7 +79,7 @@ create: async function (req, res, next) {
             });
             const mailOptions = {
                 from: "riverplate949494", 
-                to: 'juancruz.sosag@gmail.com', //VER DE TRAER EL EMAIL
+                to: userWeb.email, //VER DE TRAER EL EMAIL
                 subject: 'Compra exitosa',
                 text: 'Tu compra ha sido exitosa, el producto que compraste es '+producto.name
             };

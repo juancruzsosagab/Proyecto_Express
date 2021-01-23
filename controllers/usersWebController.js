@@ -11,7 +11,8 @@ module.exports = {
             const {error,message,userWeb} = await usersWebModel.validateUser(req.body.email,req.body.password);
             if(!error){
                 const token = jwt.sign({userId:userWeb._id},req.app.get("secretKey"),{expiresIn:"1h"});
-                res.json({message:message,token:token});
+                const userId = userWeb._id;
+                res.json({message:message,token:token,userWeb:userId});
                 return;
             }
             res.json({message:message});
@@ -61,6 +62,20 @@ module.exports = {
             }
         }catch(e){
              next(e)
+        }
+        
+    },
+    getById: async function (req, res, next) {
+        try{
+            console.log(req.params.id);
+            const userWeb = await usersWebModel.findById(req.body.usuario_id);
+            if(!userWeb){
+                res.status(200).json({msg:"no existe el usuario"})
+                return; //Siempre despues de un res un return
+            }
+            res.status(200).json(userWeb);
+        }catch(e){
+            next(e)
         }
         
     }
