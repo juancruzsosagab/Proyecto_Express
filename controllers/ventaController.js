@@ -8,6 +8,32 @@ const nodemailer = require('nodemailer');
 
 
 module.exports = {
+
+    getAll: async (req, res, next) => {
+        try{
+            
+            let queryFind = {};
+            console.log("asd"+req.body.userWeb)
+            //Ver acá de usar Global state y context en React
+            const userWeb = req.body.userWeb
+            if(userWeb){
+                queryFind = {usuario_id:userWeb}
+            }
+            
+            console.log(queryFind)
+            const documento = await ventaModel.paginate(queryFind,{
+                              
+                sort: {product_name:1},
+                populate: 'producto_id',
+                limit:req.query.limit || 16,
+                page:req.query.page || 1 //numero de pagina
+            });
+            res.status(200).json(documento);
+        }catch(e){
+            next(e)
+        }
+        
+    },
 getById: async function (req, res, next) {
     try{
         
@@ -28,7 +54,7 @@ create: async function (req, res, next) {
      try{
         console.log(req.body.product_id)
         
-        const producto = await productsModel.findById(req.body.product_id);//ver como recibo el id del producto, la autenticación del usuario ya está guardada con el token
+        const producto = await productsModel.findById(req.body.product_id);
         if(!producto){
             res.status(200).json({msg:"no existe el producto"})
             return;   
@@ -38,10 +64,11 @@ create: async function (req, res, next) {
             res.status(200).json({msg:"no hay stock disponible"})
             return;  
         }
+        //Recibo el user para enviar email y que se guarde en la venta
         const userWeb = await usersWebModel.findById(req.body.usuario_id);
-        console.log("falla aca",userWeb)
+        console.log(userWeb)
         const today = new Date();
-        //const user id =  ver como recibo el token para sacar el user id
+        
         const venta = new ventaModel({
                 product_id: req.body.product_id,
                 /*usuario_id: req.body.usuario_id,*/

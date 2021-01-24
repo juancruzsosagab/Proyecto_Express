@@ -15,7 +15,9 @@ module.exports = {
             if(req.query.buscar){
                 queryFind={name:{$regex:".*"+req.query.buscar+".*",$options:"i"}} //buscar por nombre similar al like
             }
+
             console.log(queryFind)
+            
             const productos = await productsModel.paginate(queryFind,{
                 
                 //sort:{[req.query.sort]:req.query.sortOrder},

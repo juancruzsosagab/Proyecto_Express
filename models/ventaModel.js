@@ -45,4 +45,5 @@ const ventaSchema = new mongoose.Schema({
            
 
 })
+ventaSchema.plugin(mongoose.mongoosePaginate);
 module.exports = mongoose.model("venta", ventaSchema)
