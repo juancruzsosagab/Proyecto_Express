@@ -13,11 +13,12 @@ module.exports = {
         try{
             
             let queryFind = {};
-            console.log("asd"+req.body.userWeb)
+            console.log("asd"+req.body.userWeb);
             //Ver acá de usar Global state y context en React
-            const userWeb = req.body.userWeb
+            const userWeb = req.params.userId;
+            console.log(userWeb);
             if(userWeb){
-                queryFind = {usuario_id:userWeb}
+                queryFind = {"usuario_id:":req.params.userId};
             }
             
             console.log(queryFind)
